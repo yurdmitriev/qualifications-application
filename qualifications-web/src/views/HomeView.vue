@@ -1,9 +1,14 @@
-<script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+<script>
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <div class="container">
+      <h1>Hello world</h1>
+    </div>
   </main>
 </template>
+
+<style scoped lang="scss">
+
+</style>

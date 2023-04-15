@@ -1,0 +1,13 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+main {
+  &:not(.dashboard) {
+    padding: 2.5em 0;
+  }
+}
