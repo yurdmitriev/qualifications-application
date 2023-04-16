@@ -10,7 +10,5 @@ export const http = (token) => {
     params.headers.Authorization = `Bearer ${token}`;
   }
 
-  console.log(params);
-
   return axios.create(params);
 };

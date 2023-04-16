@@ -105,9 +105,9 @@ export default {
   data() {
     return {
       radios: {
-        lecturer: "lecturer",
-        student: "student",
-        company: "company"
+        lecturer: "Lecturer",
+        student: "Student",
+        company: "Company"
       },
       user: {
         firstName: "",

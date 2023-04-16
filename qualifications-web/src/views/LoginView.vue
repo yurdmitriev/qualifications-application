@@ -36,22 +36,29 @@
 
 <script>
 import { onsiteLogin } from "@/services/auth";
+import { useUserStore } from "@/stores/user";
 
 export default {
   name: "LoginView",
   data() {
     return {
-      email: localStorage.getItem('remember_email') ?? "",
+      email: localStorage.getItem("remember_email") ?? "",
       password: "",
       rememberMe: false
     };
   },
   methods: {
     login() {
-      onsiteLogin(this.email, this.password);
+      onsiteLogin(this.email, this.password).then(res => {
+        const userStore = useUserStore();
+        userStore.setUser(res.data);
+      }).catch(err => {
+        console.error(err);
+        return false;
+      });
       this.$router.push("/");
       if (this.rememberMe) {
-        localStorage.setItem('remember_email', this.email);
+        localStorage.setItem("remember_email", this.email);
       }
 
       return true;

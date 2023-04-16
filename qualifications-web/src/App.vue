@@ -16,7 +16,7 @@ const userStore = useUserStore();
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <LogoComponent />
-                <ProfileComponent v-if="userStore.id !== 0" :full-name="userStore.shortFullName" />
+                <ProfileComponent v-if="userStore.info.id !== 0" :full-name="userStore.info.shortFullName" />
                 <LoginComponent v-else />
             </div>
         </nav>
