@@ -8,11 +8,11 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 
 @Entity
-@Table(name = "teachers")
+@Table(name = "lecturers")
 @PrimaryKeyJoinColumn(name = "user_id")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Teacher extends User {
+public class Lecturer extends User {
     @Column(name = "qualification")
     private String qualification;
 
@@ -24,9 +24,6 @@ public class Teacher extends User {
     private Admin verifiedBy;
 
     @ManyToMany
-    @JoinTable(
-            name = "teacher_competencies",
-            joinColumns = @JoinColumn(name = "teacher"),
-            inverseJoinColumns = @JoinColumn(name = "competency"))
+    @JoinTable(name = "lecturer_competencies", joinColumns = @JoinColumn(name = "lecturer"), inverseJoinColumns = @JoinColumn(name = "competency"))
     private List<Competency> competencies;
 }

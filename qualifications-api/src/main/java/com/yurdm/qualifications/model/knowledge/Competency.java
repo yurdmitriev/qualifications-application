@@ -1,7 +1,7 @@
 package com.yurdm.qualifications.model.knowledge;
 
 import com.yurdm.qualifications.model.users.Student;
-import com.yurdm.qualifications.model.users.Teacher;
+import com.yurdm.qualifications.model.users.Lecturer;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -29,5 +29,5 @@ public class Competency {
     private List<Student> students;
 
     @ManyToMany(mappedBy = "competencies", fetch = FetchType.LAZY)
-    private List<Teacher> teachers;
+    private List<Lecturer> lecturers;
 }
