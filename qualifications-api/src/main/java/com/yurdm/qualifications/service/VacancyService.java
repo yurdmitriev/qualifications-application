@@ -19,7 +19,7 @@ public class VacancyService {
     }
 
     public PagedResponse<Vacancy> listAll(PageRequest pageRequest) {
-        var page = repository.findAll(pageRequest);
+        var page = repository.findAllByPublished(true, pageRequest);
 
         return PagedResponse.<Vacancy>builder()
                 .page(pageRequest.getPageNumber() + 1)
@@ -30,6 +30,6 @@ public class VacancyService {
     }
 
     public Optional<Vacancy> getById(long id) {
-        return repository.findById(id);
+        return repository.findByPublishedAndId(true, id);
     }
 }
