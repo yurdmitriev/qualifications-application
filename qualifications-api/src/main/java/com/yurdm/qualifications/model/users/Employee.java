@@ -1,6 +1,5 @@
 package com.yurdm.qualifications.model.users;
 
-import com.yurdm.qualifications.model.Company;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

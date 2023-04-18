@@ -1,10 +1,15 @@
 package com.yurdm.qualifications.model.content;
 
-import com.yurdm.qualifications.model.Company;
+import com.yurdm.qualifications.model.users.Company;
 import com.yurdm.qualifications.model.knowledge.Competency;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -37,4 +42,13 @@ public class Event {
             inverseJoinColumns = @JoinColumn(name = "competency_id")
     )
     private List<Competency> competencies;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
 }
