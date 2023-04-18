@@ -5,13 +5,17 @@
         <h1 class="h3 mb-4 fw-normal text-center">Авторизація</h1>
 
         <div class="w-100 form-floating mb-3">
-          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" v-model="email">
+          <input type="email" class="form-control" :class="{'is-invalid': error.active}" @keydown="() => error.active = false" id="floatingInput" placeholder="name@example.com" v-model="email">
           <label class="form-label" for="floatingInput">Електронна пошта</label>
         </div>
 
         <div class="form-floating mb-3">
-          <input type="password" class="form-control" id="floatingPassword" placeholder="Password" v-model="password">
+          <input type="password" class="form-control" :class="{'is-invalid': error.active}" @keydown="() => error.active = false" id="floatingPassword" placeholder="Password" v-model="password">
           <label class="form-label" for="floatingPassword">Пароль</label>
+
+          <small class="invalid-feedback" v-if="error.active">
+            Не вірна поштова адреса або пароль
+          </small>
         </div>
 
         <div class="mb-3 form-check">
@@ -26,7 +30,7 @@
           </button>
           <button class="flex-grow-1 btn btn-lg btn-primary" type="submit" :disabled="loading"
                   @click.prevent="googleLogin">
-            <span class="spinner-border spinner-border-sm me-1" role="status" v-if="loading" aria-hidden="true"></span>
+            <span class="spinner-border spinner-border-sm me-1" role="status" v-if="false" aria-hidden="true"></span>
             <span>Увійти із Google</span>
           </button>
         </div>
@@ -73,8 +77,8 @@ export default {
         if (this.rememberMe) {
           localStorage.setItem("remember_email", this.email);
         }
-      }).catch(err => {
-        console.error(err);
+      }).catch(() => {
+        this.error.active = true;
         return false;
         // TODO: show error on the form
       }).finally(() => {
