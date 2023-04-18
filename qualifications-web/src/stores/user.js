@@ -8,23 +8,24 @@ export const useUserStore = defineStore("user", () => {
   const patronymic = ref("");
   const shortFullName = computed(() => `${lastName.value} ${firstName.value}`);
   const email = ref("");
-  const role = ref("guest")
+  const role = ref("GUEST")
 
   const resetUser = () => {
     id.value = 0;
-    firstName.value = undefined;
-    lastName.value = undefined;
-    email.value = undefined;
-    role.value = "guest";
+    firstName.value = "";
+    lastName.value = "";
+    patronymic.value = "";
+    email.value = "";
+    role.value = "GUEST";
   };
 
   const setUser = (user) => {
-    id.value = user.id;
-    firstName.value = user.firstName;
-    lastName.value = user.lastName;
-    patronymic.value = user.patronymic;
-    email.value = user.email;
-    role.value = user.role;
+    id.value = user.id ?? 0;
+    firstName.value = user.firstName ?? "";
+    lastName.value = user.lastName ?? "";
+    patronymic.value = user.patronymic ?? "";
+    email.value = user.email ?? "";
+    role.value = user.role ?? "GUEST";
   }
 
   return {
