@@ -2,12 +2,11 @@ package com.yurdm.qualifications.model.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.yurdm.qualifications.security.SecurityRole;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -48,6 +47,14 @@ public abstract class User {
 
     @JsonProperty("role")
     public String getRole() {
-        return this.getClass().getSimpleName();
+        if (this instanceof Admin) {
+            return SecurityRole.ADMIN.name();
+        } else if (this instanceof Employee) {
+            return SecurityRole.COMPANY.name();
+        } else if (this instanceof Lecturer) {
+            return SecurityRole.LECTURER.name();
+        } else {
+            return SecurityRole.STUDENT.name();
+        }
     }
 }
