@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
@@ -37,7 +36,10 @@ public class Vacancy {
 
     @ManyToOne
     @JoinColumn(name = "company")
-    private Company author;
+    private Company company;
+
+    @Column(name = "published", nullable = false)
+    private boolean published = false;
 
     @ManyToMany
     @JoinTable(
