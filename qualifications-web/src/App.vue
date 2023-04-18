@@ -4,8 +4,17 @@ import ProfileComponent from "@/components/navbar/ProfileComponent.vue";
 import {useUserStore} from "@/stores/user";
 import LoginComponent from "@/components/navbar/LoginComponent.vue";
 import LogoComponent from "@/components/navbar/LogoComponent.vue";
+import jwt from "@/plugins/jwt";
 
 const userStore = useUserStore();
+const token = localStorage.getItem("token");
+const expires = localStorage.getItem("expires");
+
+if (token) {
+    const userInfo = jwt.decode(token);
+    console.log(userInfo);
+    userStore.setUser(userInfo);
+}
 </script>
 
 <template>
@@ -16,7 +25,7 @@ const userStore = useUserStore();
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <LogoComponent />
-                <ProfileComponent v-if="userStore.info.id !== 0" :full-name="userStore.info.shortFullName" />
+                <ProfileComponent v-if="userStore.info.email" :full-name="userStore.info.shortFullName" />
                 <LoginComponent v-else />
             </div>
         </nav>

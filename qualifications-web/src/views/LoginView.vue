@@ -20,14 +20,19 @@
         </div>
 
         <div class="mb-3 d-flex gap-3 flex-wrap">
-          <button class="flex-grow-1 btn btn-lg btn-primary" type="submit" @click.prevent="login">Увійти</button>
-          <button class="flex-grow-1 btn btn-lg btn-primary" type="submit" @click.prevent="googleLogin">Увійти із
-            Google
+          <button class="flex-grow-1 btn btn-lg btn-primary" type="submit" :disabled="loading" @click.prevent="login">
+            <span class="spinner-border spinner-border-sm me-1" role="status" v-if="loading" aria-hidden="true"></span>
+            <span>Увійти</span>
+          </button>
+          <button class="flex-grow-1 btn btn-lg btn-primary" type="submit" :disabled="loading"
+                  @click.prevent="googleLogin">
+            <span class="spinner-border spinner-border-sm me-1" role="status" v-if="loading" aria-hidden="true"></span>
+            <span>Увійти із Google</span>
           </button>
         </div>
 
         <div>
-          <span>Не зареєстровані? <RouterLink to="/register">Зареєструватися</RouterLink></span>
+          <span>Не зареєстровані? <RouterLink to="/register" :disabled="loading">Зареєструватися</RouterLink></span>
         </div>
       </form>
     </div>
@@ -44,24 +49,37 @@ export default {
     return {
       email: localStorage.getItem("remember_email") ?? "",
       password: "",
-      rememberMe: false
+      rememberMe: false,
+      error: {
+        message: "",
+        active: false
+      },
+      loading: false
     };
   },
   methods: {
     login() {
+      this.loading = true;
       onsiteLogin(this.email, this.password).then(res => {
         const userStore = useUserStore();
-        userStore.setUser(res.data);
+        const response = res.data;
+        const decoded = this.$jwt.decode(response.token);
+
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("expires", response.expires);
+        userStore.setUser(decoded);
+        this.$router.push("/");
+
+        if (this.rememberMe) {
+          localStorage.setItem("remember_email", this.email);
+        }
       }).catch(err => {
         console.error(err);
         return false;
+        // TODO: show error on the form
+      }).finally(() => {
+        this.loading = false;
       });
-      this.$router.push("/");
-      if (this.rememberMe) {
-        localStorage.setItem("remember_email", this.email);
-      }
-
-      return true;
     },
     googleLogin() {
       return false;
