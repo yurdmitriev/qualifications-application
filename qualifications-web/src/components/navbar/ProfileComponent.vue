@@ -3,9 +3,9 @@
     <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" role="button"
        data-bs-toggle="dropdown" aria-expanded="false">
       <UserIcon class="user-icon" />
-      <span class="mx-2 fw-bold">{{ fullName }}</span>
+      <span class="mx-2 fw-bold d-none d-md-inline">{{ fullName }}</span>
     </a>
-    <ul class="dropdown-menu text-small">
+    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-md-start text-small">
       <li>
         <RouterLink class="dropdown-item" to="/profile">Мій профіль</RouterLink>
       </li>
