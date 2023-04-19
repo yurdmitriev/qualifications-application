@@ -5,6 +5,8 @@ import LoginView from "@/views/LoginView.vue";
 import DashboardView from "@/views/DashboardView.vue";
 import NotFoundView from "@/views/NotFoundView.vue";
 import RegisterView from "@/views/RegisterView.vue";
+import ContentView from "@/views/ContentView.vue";
+import ContentListView from "@/views/ContentListView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +35,23 @@ const router = createRouter({
       path: "/dashboard",
       name: "dashboard",
       component: DashboardView
+    },
+    {
+      path: "/vacancies",
+      name: "vacancies",
+      component: ContentListView,
+      props: { showEvents: false }
+    },
+    {
+      path: "/events",
+      name: "events",
+      component: ContentListView,
+      props: { showEvents: false }
+    },
+    {
+      path: "/vacancies/:id",
+      name: "vacancy",
+      component: ContentView
     },
     {
       path: "/:pathMatch(.*)*",
