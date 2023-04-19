@@ -7,6 +7,7 @@ import NotFoundView from "@/views/NotFoundView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import ContentView from "@/views/ContentView.vue";
 import ContentListView from "@/views/ContentListView.vue";
+import { useUserStore } from "@/stores/user";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -46,7 +47,7 @@ const router = createRouter({
       path: "/events",
       name: "events",
       component: ContentListView,
-      props: { showEvents: false }
+      props: { showEvents: true }
     },
     {
       path: "/vacancies/:id",
@@ -60,5 +61,19 @@ const router = createRouter({
     }
   ]
 });
+
+router.beforeEach((to, from) => {
+  const expires = localStorage.getItem("expires")
+  const now = Date.now();
+
+  if (+expires <= now) {
+    const userStore = useUserStore();
+    userStore.resetUser();
+    localStorage.removeItem("token");
+    localStorage.removeItem("expires");
+  }
+
+  return true;
+})
 
 export default router;

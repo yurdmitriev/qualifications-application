@@ -8,9 +8,6 @@ import jwt from "@/plugins/jwt";
 
 const userStore = useUserStore();
 const token = localStorage.getItem("token");
-const expires = localStorage.getItem("expires");
-
-// TODO: clear expired token
 
 if (token) {
     const userInfo = jwt.decode(token);
