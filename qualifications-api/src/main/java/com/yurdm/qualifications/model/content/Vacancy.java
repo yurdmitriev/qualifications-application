@@ -38,6 +38,9 @@ public class Vacancy {
     @JoinColumn(name = "company")
     private Company company;
 
+    @Column(name = "city")
+    private String city;
+
     @Column(name = "published", nullable = false)
     private boolean published = false;
 
