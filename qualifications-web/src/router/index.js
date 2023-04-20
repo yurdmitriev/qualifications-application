@@ -15,7 +15,10 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: HomeView
+      component: HomeView,
+      meta: {
+        title: 'Головна'
+      }
     },
     {
       path: "/login",
@@ -30,29 +33,50 @@ const router = createRouter({
     {
       path: "/profile",
       name: "profile",
-      component: ProfileView
+      component: ProfileView,
+      meta: {
+        parent: 'home',
+        title: 'Профіль користувача'
+      }
     },
     {
       path: "/dashboard",
       name: "dashboard",
-      component: DashboardView
+      component: DashboardView,
+      meta: {
+        title: "Панель керування",
+        roles: ['ADMIN', 'COMPANY']
+      }
     },
     {
       path: "/vacancies",
       name: "vacancies",
       component: ContentListView,
-      props: { showEvents: false }
+      props: { showEvents: false },
+      meta: {
+        parent: 'home',
+        title: 'Вакансії'
+      }
     },
     {
       path: "/events",
       name: "events",
       component: ContentListView,
-      props: { showEvents: true }
+      props: { showEvents: true },
+      meta: {
+        parent: 'home',
+        title: 'Події'
+      }
     },
     {
       path: "/vacancies/:id",
       name: "vacancy",
-      component: ContentView
+      component: ContentView,
+      props: true,
+      meta: {
+        parent: 'vacancies',
+        title: 'Вакансія'
+      }
     },
     {
       path: "/:pathMatch(.*)*",
