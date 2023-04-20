@@ -1,12 +1,12 @@
 <template>
   <article>
-    <h5 class="d-flex align-items-center flex-wrap">
+    <h5 class="d-flex align-items-center">
       <RouterLink :to="`/vacancies/${id}`" class="link-dark text-decoration-none"><b>{{ title }}</b></RouterLink>
       <i class="ms-1" v-if="company"> в {{ company }}</i><i class="ms-auto salary" v-if="salary"><b>₴{{ salary
       }}</b></i>
     </h5>
     <p class="mb-1"><i>{{ publishedDate }}</i> <i class="text-secondary">{{ city ?? "Віддалено" }}</i></p>
-    <p>{{ description }}</p>
+    <p>{{ summary }}</p>
   </article>
 </template>
 
@@ -15,7 +15,7 @@ import { months } from "@/services/util";
 
 export default {
   name: "VacancyItem",
-  props: ["id", "title", "description", "company", "publishedAt", "city", "salary"],
+  props: ["id", "title", "description", "summary", "company", "publishedAt", "city", "salary"],
   computed: {
     publishedDate() {
       const current = new Date();

@@ -23,14 +23,14 @@ if (token) {
                 <button class="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#topMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <LogoComponent class="me-auto me-md-0 ms-2" />
+                <LogoComponent class="me-auto me-md-0 ms-2 ms-md-0" />
                 <div class="collapse navbar-collapse me-auto ms-md-3 order-last order-md-0" id="topMenu">
                     <ul class="navbar-nav me-auto my-2 my-md-0">
                         <li class="nav-item text-center">
-                            <RouterLink class="nav-link fw-semibold" to="/vacancies">Вакансії</RouterLink>
+                            <RouterLink class="nav-link fw-semibold" active-class="active" to="/vacancies">Вакансії</RouterLink>
                         </li>
                         <li class="nav-item text-center">
-                            <RouterLink class="nav-link fw-semibold" to="/events">Події</RouterLink>
+                            <RouterLink class="nav-link fw-semibold" active-class="active" to="/events">Події</RouterLink>
                         </li>
                     </ul>
                 </div>
