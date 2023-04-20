@@ -1,7 +1,6 @@
 package com.yurdm.qualifications.model.knowledge;
 
-import com.yurdm.qualifications.model.users.Student;
-import com.yurdm.qualifications.model.users.Lecturer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,14 +19,10 @@ public class Competency {
 
     @ManyToOne
     @JoinColumn(name = "parent")
+    @JsonIgnore
     private Competency parentCompetency;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent")
     private List<Competency> microCompetencies;
-
-    @ManyToMany(mappedBy = "competencies", fetch = FetchType.LAZY)
-    private List<Student> students;
-
-    @ManyToMany(mappedBy = "competencies", fetch = FetchType.LAZY)
-    private List<Lecturer> lecturers;
 }
