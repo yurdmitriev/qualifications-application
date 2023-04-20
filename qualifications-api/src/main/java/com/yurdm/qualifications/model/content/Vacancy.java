@@ -24,7 +24,7 @@ public class Vacancy {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "salary")
@@ -42,8 +42,14 @@ public class Vacancy {
     @Column(name = "city")
     private String city;
 
-    @Column(name = "summary")
+    @Column(name = "summary", columnDefinition = "TEXT")
     private String summary;
+
+    @Column(name = "responsibilities", columnDefinition = "TEXT")
+    private String responsibilities;
+
+    @Column(name = "url")
+    private String url;
 
     @Column(name = "published", nullable = false)
     private boolean published = false;

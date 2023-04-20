@@ -19,7 +19,7 @@ public class Company {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "logo")
@@ -27,6 +27,9 @@ public class Company {
 
     @Column(name = "url")
     private String url;
+
+    @Column(name = "hr_email")
+    private String hrEmail;
 
     @ManyToOne
     @JoinColumn(name = "verified_by")
