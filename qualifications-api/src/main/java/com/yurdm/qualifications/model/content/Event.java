@@ -1,13 +1,11 @@
 package com.yurdm.qualifications.model.content;
 
-import com.yurdm.qualifications.model.users.Company;
 import com.yurdm.qualifications.model.knowledge.Competency;
+import com.yurdm.qualifications.model.users.Company;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -24,8 +22,14 @@ public class Event {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+
+    @Column(name = "summary", columnDefinition = "TEXT")
+    private String summary;
+
+    @Column(name = "url", nullable = false)
+    private String url;
 
     @Column(name = "start_date")
     @Temporal(TemporalType.DATE)
@@ -34,6 +38,9 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "company")
     private Company company;
+
+    @Column(name = "published", nullable = false)
+    private boolean published = false;
 
     @ManyToMany
     @JoinTable(
