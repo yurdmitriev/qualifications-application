@@ -1,9 +1,11 @@
 <template>
   <article>
     <h5 class="d-flex align-items-center">
-      <RouterLink :to="`/vacancies/${id}`" class="link-dark text-decoration-none"><b>{{ title }}</b></RouterLink>
-      <i class="ms-1" v-if="company"> в {{ company }}</i><i class="ms-auto salary" v-if="salary"><b>₴{{ salary
-      }}</b></i>
+      <span>
+        <RouterLink :to="`/vacancies/${id}`" class="link-dark text-decoration-none"><b>{{ title }}</b></RouterLink>
+        <i class="ms-1" v-if="company"> в {{ company }}</i>
+      </span>
+      <i class="ms-auto salary" v-if="salary"><b>₴{{ salary }}</b></i>
     </h5>
     <p class="mb-1"><i>{{ publishedDate }}</i> <i class="text-secondary">{{ city ?? "Віддалено" }}</i></p>
     <p>{{ summary }}</p>
