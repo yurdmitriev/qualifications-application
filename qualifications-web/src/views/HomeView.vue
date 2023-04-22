@@ -1,9 +1,10 @@
 <script>
 import { defineComponent } from "vue";
 import RecentVacancies from "@/components/content/RecentVacancies.vue";
+import RecentEvents from "@/components/content/RecentEvents.vue";
 
 export default defineComponent({
-  components: { RecentVacancies }
+  components: { RecentEvents, RecentVacancies }
 });
 </script>
 
@@ -11,7 +12,7 @@ export default defineComponent({
   <main>
     <div class="container">
       <div class="row gap-5">
-        <div class="col-lg"></div>
+        <RecentEvents class="col-lg" />
         <RecentVacancies class="col-lg"/>
       </div>
     </div>
