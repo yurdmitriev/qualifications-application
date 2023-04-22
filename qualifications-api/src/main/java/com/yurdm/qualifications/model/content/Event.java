@@ -1,9 +1,11 @@
 package com.yurdm.qualifications.model.content;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yurdm.qualifications.model.knowledge.Competency;
 import com.yurdm.qualifications.model.users.Company;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,10 +13,11 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "events")
 @Data
-public class Event {
+public class Event extends MicroCredentialsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -27,6 +30,9 @@ public class Event {
 
     @Column(name = "summary", columnDefinition = "TEXT")
     private String summary;
+
+    @Column(name = "city")
+    private String city;
 
     @Column(name = "url", nullable = false)
     private String url;
@@ -48,6 +54,7 @@ public class Event {
             joinColumns = @JoinColumn(name = "event_id"),
             inverseJoinColumns = @JoinColumn(name = "competency_id")
     )
+    @JsonIgnore
     private List<Competency> competencies;
 
     @CreationTimestamp
