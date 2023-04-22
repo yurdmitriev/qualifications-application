@@ -6,8 +6,9 @@ import DashboardView from "@/views/DashboardView.vue";
 import NotFoundView from "@/views/NotFoundView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import ContentView from "@/views/ContentView.vue";
-import ContentListView from "@/views/ContentListView.vue";
 import { useUserStore } from "@/stores/user";
+import VacanciesListView from "@/views/VacanciesListView.vue";
+import EventsListView from "@/views/EventsListView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,8 +52,7 @@ const router = createRouter({
     {
       path: "/vacancies",
       name: "vacancies",
-      component: ContentListView,
-      props: { showEvents: false },
+      component: VacanciesListView,
       meta: {
         parent: 'home',
         title: 'Вакансії'
@@ -61,8 +61,7 @@ const router = createRouter({
     {
       path: "/events",
       name: "events",
-      component: ContentListView,
-      props: { showEvents: true },
+      component: EventsListView,
       meta: {
         parent: 'home',
         title: 'Події'
@@ -72,10 +71,24 @@ const router = createRouter({
       path: "/vacancies/:id",
       name: "vacancy",
       component: ContentView,
-      props: true,
+      props: {
+        isVacancy: true
+      },
       meta: {
         parent: 'vacancies',
         title: 'Вакансія'
+      }
+    },
+    {
+      path: "/events/:id",
+      name: "event",
+      component: ContentView,
+      props: {
+        isVacancy: false
+      },
+      meta: {
+        parent: 'events',
+        title: 'Подія'
       }
     },
     {
