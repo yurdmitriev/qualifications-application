@@ -25,11 +25,12 @@ public class JwtUtil {
     @Value("${jwt.expireMinutes}")
     private int expireMinutes;
 
-    public String generateToken(String email, String firstName, String lastName, String role) {
+    public String generateToken(String email, String firstName, String lastName, String role, long id) {
         Date expireAt = Date.from(ZonedDateTime.now().plusMinutes(expireMinutes).toInstant());
 
         return JWT.create()
                 .withSubject(subject)
+                .withClaim("id", id)
                 .withClaim("email", email)
                 .withClaim("firstName", firstName)
                 .withClaim("lastName", lastName)

@@ -65,7 +65,7 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         user = userService.createUser(user);
-        String token = jwtUtil.generateToken(user.getEmail(), user.getFirstName(), user.getLastName(), user.getRole());
+        String token = jwtUtil.generateToken(user.getEmail(), user.getFirstName(), user.getLastName(), user.getRole(), user.getId());
         Date expires = jwtUtil.getExpireDate(token);
 
         return ResponseEntity.ok(new AuthResponse(token, expires.getTime()));
@@ -77,7 +77,7 @@ public class AuthService {
         );
 
         var user = repository.findByEmail(dto.getEmail()).orElseThrow(UserNotFoundException::new);
-        String token = jwtUtil.generateToken(user.getEmail(), user.getFirstName(), user.getLastName(), user.getRole());
+        String token = jwtUtil.generateToken(user.getEmail(), user.getFirstName(), user.getLastName(), user.getRole(), user.getId());
         Date expires = jwtUtil.getExpireDate(token);
         return ResponseEntity.ok(new AuthResponse(token, expires.getTime()));
     }
