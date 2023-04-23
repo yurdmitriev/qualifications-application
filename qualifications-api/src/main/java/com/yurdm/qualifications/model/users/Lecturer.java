@@ -23,7 +23,7 @@ public class Lecturer extends User {
     @JoinColumn(name = "verified_by")
     private Admin verifiedBy;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "lecturer_competencies", joinColumns = @JoinColumn(name = "lecturer"), inverseJoinColumns = @JoinColumn(name = "competency"))
     private List<Competency> competencies;
 }
