@@ -1,23 +1,88 @@
 <template>
   <main>
     <div class="container">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <RouterLink to="/">Головна</RouterLink>
-          </li>
-          <li class="breadcrumb-item active" aria-current="page">Профіль</li>
-        </ol>
-      </nav>
+      <BreadcrumbsComponent />
 
-      <h1>That's my profile page</h1>
+      <div class="text-center mt-5" v-if="loading">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      <article v-else>
+        <h1 class="mt-4">{{ user.firstName }} {{ user.patronymic }} {{ user.lastName }} </h1>
+        <div class="row p-0 mt-4 gap-3">
+          <section class="col-md-7 list-group-flush">
+            <h5 class="list-group-item">
+              <b v-if="user.role === 'ADMIN'">Адміністратор системи</b>
+              <b v-else-if="user.role === 'STUDENT'">Студент <span v-if="user.course">{{ user.course }} курсу</span></b>
+              <b v-else-if="user.role === 'LECTURER'">Викладач</b>
+              <b v-else>Співробітник ІТ-компанії <span v-if="user.company">{{ user.company.title }}</span></b>
+            </h5>
+            <h5 class="list-group-item" v-if="user.position"><b>Посада:</b> {{ user.position }}</h5>
+            <h5 class="list-group-item mt-4">
+              <b>Email:</b> {{ user.email }}
+            </h5>
+          </section>
+          <section class="col-md-4" v-if="user.role === 'STUDENT' || user.role === 'LECTURER'">
+            <h5><b>Володію навичками:</b></h5>
+            <div class="list-group mt-3" v-if="user.competencies.length !== 0">
+              {{user.competencies}}
+            </div>
+            <h5 class="mt-3" v-else>Пусто</h5>
+          </section>
+        </div>
+      </article>
     </div>
   </main>
 </template>
 
 <script>
+import BreadcrumbsComponent from "@/components/content/BreadcrumbsComponent.vue";
+import { getCurrentUser } from "@/services/auth";
+
 export default {
-  name: "ProfileView"
+  name: "ProfileView",
+  components: { BreadcrumbsComponent },
+  data() {
+    return {
+      user: {
+        firstName: "",
+        lastName: "",
+        patronymic: "",
+        email: "",
+        role: "",
+        position: "",
+        course: "",
+        company: "",
+        competencies: []
+      },
+      loading: true
+    };
+  },
+  beforeMount() {
+    this.loading = true;
+
+    getCurrentUser()
+      .then(res => {
+        const response = res.data;
+        this.user.firstName = response.firstName;
+        this.user.lastName = response.lastName;
+        this.user.patronymic = response.patronymic;
+        this.user.email = response.email;
+        this.user.role = response.role;
+
+        if (response.position) this.user.position = response.position;
+        if (response.company) this.user.company = response.company;
+        if (response.course) this.user.course = response.course;
+        if (response.competencies) this.user.competencies = response.competencies;
+      })
+      .catch(err => {
+        // TODO: catch error
+      })
+      .finally(() => {
+        this.loading = false;
+      });
+  }
 };
 </script>
 

@@ -34,7 +34,11 @@ export const useUserStore = defineStore("user", () => {
     return info.email.value && info.id.value;
   }
 
+  const hasCompetencies = () => {
+    return info.role.value === 'LECTURER' || info.role.value === 'STUDENT';
+  }
+
   return {
-    info, resetUser, setUser, isAuthenticated
+    info, resetUser, setUser, isAuthenticated, hasCompetencies
   };
 });
