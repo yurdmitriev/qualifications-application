@@ -9,6 +9,7 @@ import ContentView from "@/views/ContentView.vue";
 import { useUserStore } from "@/stores/user";
 import VacanciesListView from "@/views/VacanciesListView.vue";
 import EventsListView from "@/views/EventsListView.vue";
+import AccessDeniedView from "@/views/AccessDeniedView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,7 +19,7 @@ const router = createRouter({
       name: "home",
       component: HomeView,
       meta: {
-        title: 'Головна'
+        title: "Головна"
       }
     },
     {
@@ -36,8 +37,9 @@ const router = createRouter({
       name: "profile",
       component: ProfileView,
       meta: {
-        parent: 'home',
-        title: 'Профіль користувача'
+        parent: "home",
+        title: "Профіль користувача",
+        roles: ["ADMIN", "STUDENT", "COMPANY", "LECTURER"]
       }
     },
     {
@@ -46,7 +48,7 @@ const router = createRouter({
       component: DashboardView,
       meta: {
         title: "Панель керування",
-        roles: ['ADMIN', 'COMPANY']
+        roles: ["ADMIN", "COMPANY", "LECTURER"]
       }
     },
     {
@@ -54,8 +56,8 @@ const router = createRouter({
       name: "vacancies",
       component: VacanciesListView,
       meta: {
-        parent: 'home',
-        title: 'Вакансії'
+        parent: "home",
+        title: "Вакансії"
       }
     },
     {
@@ -63,8 +65,8 @@ const router = createRouter({
       name: "events",
       component: EventsListView,
       meta: {
-        parent: 'home',
-        title: 'Події'
+        parent: "home",
+        title: "Події"
       }
     },
     {
@@ -75,8 +77,8 @@ const router = createRouter({
         isVacancy: true
       },
       meta: {
-        parent: 'vacancies',
-        title: 'Вакансія'
+        parent: "vacancies",
+        title: "Вакансія"
       }
     },
     {
@@ -87,9 +89,17 @@ const router = createRouter({
         isVacancy: false
       },
       meta: {
-        parent: 'events',
-        title: 'Подія'
+        parent: "events",
+        title: "Подія"
       }
+    },
+    {
+      path: "/denied",
+      name: "access_denied",
+      props: route => ({
+       query: route.query.to
+      }),
+      component: AccessDeniedView
     },
     {
       path: "/:pathMatch(.*)*",
@@ -100,17 +110,21 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from) => {
-  const expires = localStorage.getItem("expires")
+  const expires = localStorage.getItem("expires");
   const now = Date.now();
+  const userStore = useUserStore();
 
   if (+expires <= now) {
-    const userStore = useUserStore();
     userStore.resetUser();
     localStorage.removeItem("token");
     localStorage.removeItem("expires");
   }
 
+  if (to.meta.roles && !to.meta.roles.includes(userStore.info.role)) {
+    return { name: "access_denied", query: { to: to.path } };
+  }
+
   return true;
-})
+});
 
 export default router;

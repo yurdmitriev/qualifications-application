@@ -28,9 +28,13 @@ export const useUserStore = defineStore("user", () => {
     role.value = user.role ?? "GUEST";
   }
 
+  const isAuthenticated = () => {
+    return email.value && id.value;
+  }
+
   return {
     info: {
       id, firstName, lastName, shortFullName, email, role
-    }, resetUser, setUser
+    }, resetUser, setUser, isAuthenticated
   };
 });
