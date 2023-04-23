@@ -16,7 +16,7 @@
           <b><i>{{ city ?? "Віддалено" }}</i></b>
         </p>
         <div class="row mx-0 gx-md-3 mt-3">
-          <section class="p-0 col-md-9">
+          <section class="p-0 col-md-8">
             <section>
               <h5><b>Про вакансію:</b></h5>
               <p v-html="description"></p>
@@ -26,7 +26,7 @@
               <p v-html="responsibilities"></p>
             </section>
           </section>
-          <section class="p-0 col-md-3">
+          <section class="p-0 col-md-3 ms-auto">
             <h5><b>Необхідні навички:</b></h5>
             <ul>
               <li v-for="item in competencies" :key="item.id">{{ item.title }}
