@@ -2,7 +2,7 @@
   <main>
     <div class="container">
       <form class="row gap-3" ref="registerForm">
-        <section class="col-lg-5 ms-lg-5">
+        <section class="col-lg-6 ms-lg-5">
           <h2 class="mb-4">Реєстрація нового користувача</h2>
           <div class="mb-3">
             <label class="form-label">Моя роль у системі:</label>
@@ -66,7 +66,10 @@
             </div>
           </div>
           <div class="d-flex mb-3 gap-3 align-items-center" v-if="(user.role !== radios.company)">
-            <button class="flex-grow-1 btn btn-lg btn-primary" :class="{'disabled': !user.role}" type="submit" @click.prevent="">Зареєструватися</button>
+            <button class="flex-grow-1 btn btn-lg btn-primary" :class="{'disabled': !user.role || loading}" type="submit" @click.prevent="register">
+              <span class="spinner-border spinner-border-sm me-1" role="status" v-if="loading" aria-hidden="true"></span>
+              <span>Зареєструватися</span>
+            </button>
             <span> або </span>
             <button class="flex-grow-1 btn btn-lg btn-primary" :class="{'disabled': !user.role}" type="submit" @click.prevent="">Увійти із
               Google
@@ -100,14 +103,18 @@
 </template>
 
 <script>
+import { registerUser } from "@/services/auth";
+import { useUserStore } from "@/stores/user";
+
 export default {
   name: "RegisterView",
   data() {
     return {
+      loading: false,
       radios: {
-        lecturer: "Lecturer",
-        student: "Student",
-        company: "Company"
+        lecturer: "LECTURER",
+        student: "STUDENT",
+        company: "COMPANY"
       },
       user: {
         firstName: "",
@@ -124,6 +131,29 @@ export default {
         }
       }
     };
+  },
+  methods: {
+    register() {
+      this.loading = true;
+      registerUser(this.user)
+        .then(res => {
+          const userStore = useUserStore();
+          const response = res.data;
+          const decoded = this.$jwt.decode(response.token);
+
+          localStorage.setItem("token", response.token);
+          localStorage.setItem("expires", response.expires);
+          userStore.setUser(decoded);
+          this.$router.push("profile");
+        })
+        .catch(err => {
+          alert(err);
+          console.err(err);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    }
   }
 };
 </script>

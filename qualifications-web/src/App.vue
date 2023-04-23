@@ -11,7 +11,6 @@ const token = localStorage.getItem("token");
 
 if (token) {
     const userInfo = jwt.decode(token);
-    console.log(userInfo);
     userStore.setUser(userInfo);
 }
 </script>
