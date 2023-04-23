@@ -103,8 +103,7 @@
 </template>
 
 <script>
-import { registerUser } from "@/services/auth";
-import { useUserStore } from "@/stores/user";
+import { registerUser, retrieveUser } from "@/services/auth";
 
 export default {
   name: "RegisterView",
@@ -137,13 +136,11 @@ export default {
       this.loading = true;
       registerUser(this.user)
         .then(res => {
-          const userStore = useUserStore();
           const response = res.data;
-          const decoded = this.$jwt.decode(response.token);
-
           localStorage.setItem("token", response.token);
           localStorage.setItem("expires", response.expires);
-          userStore.setUser(decoded);
+
+          retrieveUser();
           this.$router.push("profile");
         })
         .catch(err => {

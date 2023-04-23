@@ -1,18 +1,14 @@
 <script setup>
 import {RouterView} from 'vue-router'
 import ProfileComponent from "@/components/navbar/ProfileComponent.vue";
-import {useUserStore} from "@/stores/user";
 import LoginComponent from "@/components/navbar/LoginComponent.vue";
 import LogoComponent from "@/components/navbar/LogoComponent.vue";
-import jwt from "@/plugins/jwt";
+import { useUserStore } from "@/stores/user";
+import { retrieveUser } from "@/services/auth";
 
 const userStore = useUserStore();
-const token = localStorage.getItem("token");
-
-if (token) {
-    const userInfo = jwt.decode(token);
-    userStore.setUser(userInfo);
-}
+userStore.resetUser();
+retrieveUser();
 </script>
 
 <template>

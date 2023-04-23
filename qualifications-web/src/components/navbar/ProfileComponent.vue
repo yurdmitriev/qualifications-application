@@ -30,10 +30,13 @@ export default {
   methods: {
     logout() {
       const store = useUserStore();
-      store.resetUser();
       this.$router.push("/");
-      localStorage.removeItem("token");
-      localStorage.removeItem("expires");
+      const remember_email = localStorage.getItem("remember_email");
+      localStorage.clear();
+      // localStorage.removeItem("token");
+      // localStorage.removeItem("expires");
+      localStorage.setItem("remember_email", remember_email)
+      store.resetUser();
     }
   }
 };

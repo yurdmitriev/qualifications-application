@@ -44,8 +44,7 @@
 </template>
 
 <script>
-import { onsiteLogin } from "@/services/auth";
-import { useUserStore } from "@/stores/user";
+import { onsiteLogin, retrieveUser } from "@/services/auth";
 
 export default {
   name: "LoginView",
@@ -65,13 +64,9 @@ export default {
     login() {
       this.loading = true;
       onsiteLogin(this.email, this.password).then(res => {
-        const userStore = useUserStore();
         const response = res.data;
-        const decoded = this.$jwt.decode(response.token);
-
         localStorage.setItem("token", response.token);
         localStorage.setItem("expires", response.expires);
-        userStore.setUser(decoded);
         this.$router.push("/");
 
         if (this.rememberMe) {
@@ -83,6 +78,7 @@ export default {
         // TODO: show error on the form
       }).finally(() => {
         this.loading = false;
+        retrieveUser();
       });
     },
     googleLogin() {

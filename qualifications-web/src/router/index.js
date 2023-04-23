@@ -10,6 +10,7 @@ import { useUserStore } from "@/stores/user";
 import VacanciesListView from "@/views/VacanciesListView.vue";
 import EventsListView from "@/views/EventsListView.vue";
 import AccessDeniedView from "@/views/AccessDeniedView.vue";
+import { retrieveUser } from "@/services/auth";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -110,15 +111,9 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from) => {
-  const expires = localStorage.getItem("expires");
-  const now = Date.now();
   const userStore = useUserStore();
 
-  if (+expires <= now) {
-    userStore.resetUser();
-    localStorage.removeItem("token");
-    localStorage.removeItem("expires");
-  }
+  retrieveUser();
 
   if (to.meta.roles && !to.meta.roles.includes(userStore.info.role)) {
     return { name: "access_denied", query: { to: to.path } };
