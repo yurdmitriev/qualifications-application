@@ -15,7 +15,10 @@
             <h5 class="list-group-item">
               <b v-if="user.role === 'ADMIN'">Адміністратор системи</b>
               <b v-else-if="user.role === 'STUDENT'">Студент <span v-if="user.course">{{ user.course }} курсу</span></b>
-              <b v-else-if="user.role === 'LECTURER'">Викладач</b>
+              <b v-else-if="user.role === 'LECTURER'">
+                <span v-if="user.qualification">{{ user.qualification }}</span><span v-else>Викладач</span>
+                <span v-if="user.department"> у {{ user.department }}</span>
+              </b>
               <b v-else>Співробітник ІТ-компанії <span v-if="user.company">{{ user.company.title }}</span></b>
             </h5>
             <h5 class="list-group-item" v-if="user.position"><b>Посада:</b> {{ user.position }}</h5>
@@ -24,7 +27,7 @@
             </h5>
           </section>
           <section class="col-md-4" v-if="user.role === 'STUDENT' || user.role === 'LECTURER'">
-            <h5><b>Володію навичками:</b></h5>
+            <h5><b v-if="user.role === 'STUDENT'">Володію навичками:</b><b v-else>Викладаю технології:</b></h5>
             <div class="list-group mt-3" v-if="user.competencies.length !== 0">
               {{user.competencies}}
             </div>
@@ -54,7 +57,9 @@ export default {
         position: "",
         course: "",
         company: "",
-        competencies: []
+        competencies: [],
+        qualification: "",
+        department: ""
       },
       loading: true
     };
@@ -75,6 +80,8 @@ export default {
         if (response.company) this.user.company = response.company;
         if (response.course) this.user.course = response.course;
         if (response.competencies) this.user.competencies = response.competencies;
+        if (response.qualification) this.user.qualification = response.qualification;
+        if (response.department) this.user.department = response.department;
       })
       .catch(err => {
         // TODO: catch error
