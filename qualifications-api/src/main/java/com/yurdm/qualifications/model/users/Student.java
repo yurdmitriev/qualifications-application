@@ -16,7 +16,7 @@ public class Student extends User {
     @Column(name = "course")
     private int course;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "student_competencies",
             joinColumns = @JoinColumn(name = "student"),
