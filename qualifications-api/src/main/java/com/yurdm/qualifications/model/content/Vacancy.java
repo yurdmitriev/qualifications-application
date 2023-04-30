@@ -1,7 +1,6 @@
 package com.yurdm.qualifications.model.content;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.yurdm.qualifications.model.users.Company;
 import com.yurdm.qualifications.model.knowledge.Competency;
 import jakarta.persistence.*;
