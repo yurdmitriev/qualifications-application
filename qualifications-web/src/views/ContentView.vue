@@ -27,14 +27,7 @@
             </section>
           </section>
           <section class="p-0 col-md-3 ms-auto">
-            <h5><b>Необхідні навички:</b></h5>
-            <ul>
-              <li v-for="item in competencies" :key="item.id">{{ item.title }}
-                <ul v-if="item.microCompetencies">
-                  <li v-for="i in item.microCompetencies" :key="i.id">{{ i.title }}</li>
-                </ul>
-              </li>
-            </ul>
+            <MicroCredentialsComponent :editable="false" :competencies="competencies"/>
           </section>
           <section class="mt-3">
             <a target="_blank" class="btn btn-primary fw-semibold" :href="url" v-if="url">
@@ -110,10 +103,11 @@ import GeoFilledIcon from "@/components/icons/GeoFilledIcon.vue";
 import ExternalIcon from "@/components/icons/ExternalIcon.vue";
 import SendEmailIcon from "@/components/icons/SendEmailIcon.vue";
 import { getPublishedEventById } from "@/services/events";
+import MicroCredentialsComponent from "@/components/content/MicroCredentialsComponent.vue";
 
 export default {
   name: "ContentView",
-  components: { SendEmailIcon, ExternalIcon, GeoFilledIcon, BreadcrumbsComponent, NotFoundView },
+  components: { MicroCredentialsComponent, SendEmailIcon, ExternalIcon, GeoFilledIcon, BreadcrumbsComponent, NotFoundView },
   props: {
     isVacancy: Boolean
   },

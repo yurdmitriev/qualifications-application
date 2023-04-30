@@ -53,7 +53,7 @@
         </div>
       </fieldset>
       <fieldset class="p-0 col-md-4 ms-auto">
-        <MicroCredentialsComponent />
+        <MicroCredentialsComponent :mock="true" :editable="true" />
       </fieldset>
       <fieldset class="col-12 d-flex align-items-center gap-4">
         <button class="btn btn-primary">Зберегти</button>
