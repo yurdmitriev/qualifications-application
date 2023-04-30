@@ -25,13 +25,14 @@
             <h5 class="list-group-item mt-4">
               <b>Email:</b> {{ user.email }}
             </h5>
+            <div class="mt-5">
+              <RouterLink class="btn btn-primary" to="/profile/edit">Редагувати інформацію</RouterLink>
+            </div>
           </section>
           <section class="col-md-4" v-if="user.role === 'STUDENT' || user.role === 'LECTURER'">
-            <h5><b v-if="user.role === 'STUDENT'">Володію навичками:</b><b v-else>Викладаю технології:</b></h5>
-            <div class="list-group mt-3" v-if="user.competencies.length !== 0">
-              {{user.competencies}}
-            </div>
-            <h5 class="mt-3" v-else>Пусто</h5>
+            <MicroCredentialsComponent v-if="user.competencies.length > 0" :editable="false" :mock="true"
+                                       :title="(user.role === 'STUDENT') ? 'Володію навичками' : 'Викладаю технології'" />
+            <h5 class="mt-3" v-else>Мікрокваліфікації можна додати у формі редагування інформації</h5>
           </section>
         </div>
       </article>
@@ -42,10 +43,11 @@
 <script>
 import BreadcrumbsComponent from "@/components/content/BreadcrumbsComponent.vue";
 import { getCurrentUser } from "@/services/auth";
+import MicroCredentialsComponent from "@/components/content/MicroCredentialsComponent.vue";
 
 export default {
   name: "ProfileView",
-  components: { BreadcrumbsComponent },
+  components: { MicroCredentialsComponent, BreadcrumbsComponent },
   data() {
     return {
       user: {

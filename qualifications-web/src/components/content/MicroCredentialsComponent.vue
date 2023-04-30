@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h5><b>Необхідні навички:</b></h5>
+    <h5><b>{{ title ?? "Необхідні навички" }}:</b></h5>
     <div class="mt-3" v-if="editable">
       <input class="form-control form-control-sm" type="text" placeholder="Пошук за назвою...">
     </div>
@@ -25,8 +25,10 @@ export default {
   components: { CloseIcon },
   props: {
     editable: Boolean,
+    showSearch: Boolean,
     mock: Boolean,
-    competencies: Array
+    competencies: Array,
+    title: String
   },
   data() {
     return {

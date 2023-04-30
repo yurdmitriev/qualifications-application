@@ -14,6 +14,7 @@ import { retrieveUser } from "@/services/auth";
 import ContentListView from "@/views/dashboard/ContentListView.vue";
 import DefaultView from "@/views/dashboard/DefaultView.vue";
 import NewContentView from "@/views/dashboard/NewContentView.vue";
+import EditProfileView from "@/views/EditProfileView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,6 +44,16 @@ const router = createRouter({
       meta: {
         parent: "home",
         title: "Профіль користувача",
+        roles: ["ADMIN", "STUDENT", "COMPANY", "LECTURER"]
+      }
+    },
+    {
+      path: "/profile/edit",
+      name: "profile_edit",
+      component: EditProfileView,
+      meta: {
+        parent: "profile",
+        title: "Редагування інформації",
         roles: ["ADMIN", "STUDENT", "COMPANY", "LECTURER"]
       }
     },
