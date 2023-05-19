@@ -2,8 +2,11 @@ package com.yurdm.qualifications.model.users.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.yurdm.qualifications.model.users.Company;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
+@Builder
 @Data
 public class CompanyDTO {
     @JsonProperty(value = "title", required = true)
