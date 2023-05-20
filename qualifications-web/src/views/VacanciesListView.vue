@@ -5,7 +5,7 @@
       <div class="row gx-md-5 gy-3 align-items-start mt-2 mx-0">
         <section class="card col-md-4 col-lg-3 p-0 filters">
           <div class="card-body p-4 list-group-flush">
-            <h6>Тут будуть фільтри</h6>
+            <MicroCredentialsComponent :mock="true" :editable="true" />
           </div>
         </section>
         <div class="text-center col-md-8 col-lg-9 my-auto mt-5 mt-md-0" v-if="loading">
@@ -36,10 +36,11 @@ import { listVacancies } from "@/services/vacancies";
 import VacancyItem from "@/components/content/VacancyItem.vue";
 import BreadcrumbsComponent from "@/components/content/BreadcrumbsComponent.vue";
 import PaginationGroup from "@/components/content/PaginationGroup.vue";
+import MicroCredentialsComponent from "@/components/content/MicroCredentialsComponent.vue";
 
 export default {
   name: "VacanciesListView",
-  components: { PaginationGroup, BreadcrumbsComponent, VacancyItem },
+  components: { MicroCredentialsComponent, PaginationGroup, BreadcrumbsComponent, VacancyItem },
   props: {
     showEvents: Boolean
   },

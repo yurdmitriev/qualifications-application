@@ -11,6 +11,10 @@ import VacanciesListView from "@/views/VacanciesListView.vue";
 import EventsListView from "@/views/EventsListView.vue";
 import AccessDeniedView from "@/views/AccessDeniedView.vue";
 import { retrieveUser } from "@/services/auth";
+import ContentListView from "@/views/dashboard/ContentListView.vue";
+import DefaultView from "@/views/dashboard/DefaultView.vue";
+import NewContentView from "@/views/dashboard/NewContentView.vue";
+import EditProfileView from "@/views/EditProfileView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,13 +48,65 @@ const router = createRouter({
       }
     },
     {
+      path: "/profile/edit",
+      name: "profile_edit",
+      component: EditProfileView,
+      meta: {
+        parent: "profile",
+        title: "Редагування інформації",
+        roles: ["ADMIN", "STUDENT", "COMPANY", "LECTURER"]
+      }
+    },
+    {
       path: "/dashboard",
       name: "dashboard",
       component: DashboardView,
       meta: {
         title: "Панель керування",
-        roles: ["ADMIN", "COMPANY", "LECTURER"]
-      }
+        roles: ["ADMIN", "COMPANY", "LECTURER"],
+        dashboard: true
+      },
+      children: [
+        {
+          path: "",
+          name: "dashboard_main",
+          component: DefaultView,
+          meta: {
+            parent: "dashboard",
+            title: "Пропозиції",
+            roles: ["ADMIN", "COMPANY"]
+          }
+        },
+        {
+          path: "content",
+          name: "dashboard_content",
+          component: ContentListView,
+          meta: {
+            parent: "dashboard",
+            title: "Пропозиції",
+            roles: ["ADMIN", "COMPANY"]
+          }
+        },
+        {
+          path: "content/new",
+          name: "dashboard_content_form",
+          component: NewContentView,
+          meta: {
+            parent: "dashboard_content",
+            title: "Нова пропозиція",
+            roles: ["ADMIN", "COMPANY"]
+          },
+        },
+        {
+          path: "colleges",
+          name: "dashboard_colleges",
+          component: VacanciesListView,
+          meta: {
+            parent: "dashboard",
+            title: "Колеги"
+          }
+        },
+      ]
     },
     {
       path: "/vacancies",

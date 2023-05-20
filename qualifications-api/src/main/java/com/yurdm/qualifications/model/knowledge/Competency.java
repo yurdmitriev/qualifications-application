@@ -1,6 +1,7 @@
 package com.yurdm.qualifications.model.knowledge;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,5 +25,6 @@ public class Competency {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent")
+    @JsonProperty("items")
     private List<Competency> microCompetencies;
 }

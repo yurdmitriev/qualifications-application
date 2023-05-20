@@ -33,7 +33,7 @@ export default {
   },
   beforeMount() {
     this.loading = true;
-    listPublishedEvents(1, 5).then(res => {
+    listPublishedEvents(1, 4).then(res => {
       const response = res.data;
       this.items = response.items;
       if (response.totalPages > 1) {
