@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./qualifications-api
 
     steps:
       - uses: actions/checkout@v2
@@ -22,13 +24,15 @@ jobs:
           java-version: '17'
 
       - name: Build with Maven
+        working-directory: ${{env.working-directory}}
         run: mvn clean install
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          # path: '${{ github.workspace }}/target/*.jar'
+          path: '${{ env.working-directory }}/target/*.jar'
 
   deploy:
     runs-on: ubuntu-latest
