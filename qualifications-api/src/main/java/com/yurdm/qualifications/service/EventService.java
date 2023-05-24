@@ -27,7 +27,28 @@ public class EventService {
                 .build();
     }
 
+    public PagedResponse<Event> listAll(PageRequest pageRequest) {
+        var page = repository.findAll(pageRequest);
+
+        return PagedResponse.<Event>builder()
+                .page(pageRequest.getPageNumber() + 1)
+                .total(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .items(page.toList())
+                .build();
+    }
+
     public Optional<Event> getPublishedById(long id) {
         return repository.findByPublishedAndId(true, id);
+    }
+
+    public Event setPublished(long id, boolean state) {
+        var event = repository.findById(id).orElseThrow();
+        event.setPublished(state);
+        return repository.save(event);
+    }
+
+    public void deleteById(long id) {
+        repository.deleteById(id);
     }
 }

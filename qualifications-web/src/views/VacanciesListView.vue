@@ -21,7 +21,7 @@
           <div class="list-group gap-3">
             <VacancyItem v-for="item in items" v-bind:key="item.id" :id="item.id" :title="item.title" :city="item.city"
                          :description="item.description" :salary="item.salary" :published-at="item.publishDate"
-                         :company="item.company.title" :summary="item.summary" />
+                         :company="item.company.title" :summary="item.summary" :published="item.published" />
           </div>
           <PaginationGroup v-if="pagination.max > 1" @page="updateList" :current-page="pagination.current"
                            :total-pages="pagination.max" />
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { listVacancies } from "@/services/vacancies";
+import { listPublishedVacancies } from "@/services/vacancies";
 import VacancyItem from "@/components/content/VacancyItem.vue";
 import BreadcrumbsComponent from "@/components/content/BreadcrumbsComponent.vue";
 import PaginationGroup from "@/components/content/PaginationGroup.vue";
@@ -65,7 +65,7 @@ export default {
     loadItems(page) {
       this.loading = true;
 
-      listVacancies(page, this.defaultSize)
+      listPublishedVacancies(page, this.defaultSize)
         .then(res => {
           const response = res.data;
           this.items = response.items;

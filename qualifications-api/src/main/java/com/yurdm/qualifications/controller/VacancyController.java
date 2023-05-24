@@ -1,12 +1,17 @@
 package com.yurdm.qualifications.controller;
 
 import com.yurdm.qualifications.model.content.Vacancy;
+import com.yurdm.qualifications.model.content.dto.ContentPublisherDTO;
 import com.yurdm.qualifications.service.VacancyService;
 import com.yurdm.qualifications.util.PagedResponse;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/vacancies")
@@ -19,7 +24,16 @@ public class VacancyController {
     }
 
     @GetMapping
-    public ResponseEntity<PagedResponse<Vacancy>> listVacancies(
+    public ResponseEntity<PagedResponse<Vacancy>> listPublishedVacancies(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
+        return ResponseEntity.ok(service.listPublished(PageRequest.of(Math.max(page - 1, 0), size)));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/all")
+    public ResponseEntity<PagedResponse<Vacancy>> listAllVacancies(
             @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
@@ -29,5 +43,21 @@ public class VacancyController {
     @GetMapping("/{id}")
     public ResponseEntity<Vacancy> getVacancy(@PathVariable long id) {
         return ResponseEntity.of(service.getById(id));
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'COMPANY')")
+    @PostMapping("/{id}/published")
+    public ResponseEntity<Vacancy> setPublished(@PathVariable long id, @RequestBody ContentPublisherDTO publisherDTO) {
+        try {
+            return ResponseEntity.ok(service.setPublished(id, publisherDTO.isPublished()));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'COMPANY')")
+    @DeleteMapping("{id}")
+    public void deleteVacancy(@PathVariable long id) {
+        service.deleteById(id);
     }
 }

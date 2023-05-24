@@ -8,7 +8,8 @@
     <section v-else>
       <div class="list-group">
         <EventItem v-for="item in items" v-bind:key="item.id" :id="item.id" :title="item.title" :city="item.city"
-                   :start-date="item.startDate" :dashboard="true" />
+                   :start-date="item.startDate" :dashboard="true" :published="item.published"
+                   @published-toggle="() => item.published = !item.published" @deleted-event="() => items = items.filter(i => i.id !== item.id)"/>
       </div>
       <PaginationGroup v-if="pagination.max > 1" @page="updateList" :current-page="pagination.current"
                        :total-pages="pagination.max" />
@@ -19,7 +20,7 @@
 <script>
 import PaginationGroup from "@/components/content/PaginationGroup.vue";
 import EventItem from "@/components/content/EventItem.vue";
-import { listPublishedEvents } from "@/services/events";
+import { listAllEvents } from "@/services/events";
 
 export default {
   name: "DashboardEventsList",
@@ -45,7 +46,7 @@ export default {
     loadItems(page) {
       this.loading = true;
 
-      listPublishedEvents(page, this.defaultSize)
+      listAllEvents(page, this.defaultSize)
         .then(res => {
           const response = res.data;
           this.items = response.items;

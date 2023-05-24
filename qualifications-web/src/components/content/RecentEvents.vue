@@ -9,7 +9,7 @@
     <h2 class="text-center">Найближчі події</h2>
     <div class="list-group mt-5 gap-2">
       <EventItem v-for="item in items" v-bind:key="item.id" :id="item.id" :title="item.title" :city="item.city"
-                 :start-date="item.startDate" :company="item.company.title" :summary="item.summary" />
+                 :start-date="item.startDate" :company="item.company.title" :summary="item.summary" :published="item.published" />
     </div>
     <div class="row" v-if="showMore">
       <RouterLink to="/vacancies" class="btn btn-primary w-auto mx-auto mt-3">Переглянути більше</RouterLink>

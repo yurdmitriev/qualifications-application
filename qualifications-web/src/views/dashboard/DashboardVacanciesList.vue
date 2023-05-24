@@ -9,7 +9,9 @@
       <div class="list-group">
         <VacancyItem v-for="item in items" v-bind:key="item.id" :id="item.id" :title="item.title" :city="item.city"
                      :description="item.description" :salary="item.salary" :published-at="item.publishDate"
-                     :dashboard="true"/>
+                     :dashboard="true" :published="item.published"
+                     @published-toggle="() => item.published = !item.published"
+                     @deleted-vacancy="() => items = items.filter(i => i.id !== item.id)" />
       </div>
       <PaginationGroup v-if="pagination.max > 1" @page="updateList" :current-page="pagination.current"
                        :total-pages="pagination.max" />
@@ -20,7 +22,7 @@
 <script>
 import VacancyItem from "@/components/content/VacancyItem.vue";
 import PaginationGroup from "@/components/content/PaginationGroup.vue";
-import { listVacancies } from "@/services/vacancies";
+import { listAllVacancies } from "@/services/vacancies";
 
 export default {
   name: "DashboardVacanciesList",
@@ -46,7 +48,7 @@ export default {
     loadItems(page) {
       this.loading = true;
 
-      listVacancies(page, this.defaultSize)
+      listAllVacancies(page, this.defaultSize)
         .then(res => {
           const response = res.data;
           this.items = response.items;

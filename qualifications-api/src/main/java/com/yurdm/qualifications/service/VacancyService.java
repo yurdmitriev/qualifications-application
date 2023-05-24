@@ -18,7 +18,7 @@ public class VacancyService {
         this.repository = repository;
     }
 
-    public PagedResponse<Vacancy> listAll(PageRequest pageRequest) {
+    public PagedResponse<Vacancy> listPublished(PageRequest pageRequest) {
         var page = repository.findAllByPublished(true, pageRequest);
 
         return PagedResponse.<Vacancy>builder()
@@ -29,7 +29,28 @@ public class VacancyService {
                 .build();
     }
 
+    public PagedResponse<Vacancy> listAll(PageRequest pageRequest) {
+        var page = repository.findAll(pageRequest);
+
+        return PagedResponse.<Vacancy>builder()
+                .page(pageRequest.getPageNumber() + 1)
+                .total(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .items(page.toList())
+                .build();
+    }
+
+    public Vacancy setPublished(long id, boolean state) {
+        var vacancy = repository.findById(id).orElseThrow();
+        vacancy.setPublished(state);
+        return repository.save(vacancy);
+    }
+
     public Optional<Vacancy> getById(long id) {
         return repository.findByPublishedAndId(true, id);
+    }
+
+    public void deleteById(long id) {
+        repository.deleteById(id);
     }
 }
