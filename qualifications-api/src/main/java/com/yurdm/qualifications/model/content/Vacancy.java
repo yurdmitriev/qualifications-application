@@ -31,7 +31,7 @@ public class Vacancy extends MicroCredentialsEntity {
     @Column(name = "salary")
     private int salary;
 
-    @Column(name = "publish_date", nullable = false)
+    @Column(name = "publish_date")
     @Temporal(TemporalType.DATE)
     @LastModifiedDate
     private Date publishDate;

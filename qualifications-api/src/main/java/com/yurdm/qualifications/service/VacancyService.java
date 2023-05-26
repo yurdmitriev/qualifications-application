@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -43,6 +45,11 @@ public class VacancyService {
     public Vacancy setPublished(long id, boolean state) {
         var vacancy = repository.findById(id).orElseThrow();
         vacancy.setPublished(state);
+        if (state) {
+            vacancy.setPublishDate(Date.from(Instant.now()));
+        } else {
+            vacancy.setPublishDate(null);
+        }
         return repository.save(vacancy);
     }
 

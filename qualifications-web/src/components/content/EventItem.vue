@@ -27,6 +27,7 @@
     </h5>
     <p class="mb-1"><i v-if="startDate"><span>Початок </span>{{ startAtDate }}</i> <i class="text-secondary">{{ city ?? "Віддалено" }}</i></p>
     <p v-if="!dashboard">{{ summary }}</p>
+    <p class="mb-1" v-if="company && adminView">Компанія: {{ company }}</p>
     <small class="text-danger" v-if="dashboard && !published"><b>Знято з публікації</b></small>
   </article>
 </template>
@@ -41,7 +42,7 @@ import { deleteById, setPublishedState } from "@/services/events";
 export default {
   name: "EventItem",
   components: { EditIcon, DeleteIcon, VisibilityIcon },
-  props: ["id", "title", "description", "summary", "company", "startDate", "city", "dashboard", "published"],
+  props: ["id", "title", "description", "summary", "company", "startDate", "city", "dashboard", "published", "adminView"],
   data() {
     return {
       publishedLoading: false,

@@ -9,7 +9,9 @@
       <div class="list-group">
         <EventItem v-for="item in items" v-bind:key="item.id" :id="item.id" :title="item.title" :city="item.city"
                    :start-date="item.startDate" :dashboard="true" :published="item.published"
-                   @published-toggle="() => item.published = !item.published" @deleted-event="() => items = items.filter(i => i.id !== item.id)"/>
+                   :company="item.company.title" :admin-view="isAdmin"
+                   @published-toggle="() => item.published = !item.published"
+                   @deleted-event="() => items = items.filter(i => i.id !== item.id)" />
       </div>
       <PaginationGroup v-if="pagination.max > 1" @page="updateList" :current-page="pagination.current"
                        :total-pages="pagination.max" />
@@ -21,6 +23,7 @@
 import PaginationGroup from "@/components/content/PaginationGroup.vue";
 import EventItem from "@/components/content/EventItem.vue";
 import { listAllEvents } from "@/services/events";
+import { useUserStore } from "@/stores/user";
 
 export default {
   name: "DashboardEventsList",
@@ -35,6 +38,11 @@ export default {
         max: 1
       }
     };
+  },
+  computed: {
+    isAdmin() {
+      return useUserStore().info.role === 'ADMIN';
+    }
   },
   methods: {
     updateList(value) {

@@ -9,8 +9,8 @@
       <div class="list-group">
         <VacancyItem v-for="item in items" v-bind:key="item.id" :id="item.id" :title="item.title" :city="item.city"
                      :description="item.description" :salary="item.salary" :published-at="item.publishDate"
-                     :dashboard="true" :published="item.published"
-                     @published-toggle="() => item.published = !item.published"
+                     :dashboard="true" :published="item.published" :admin-view="isAdmin" :company="item.company.title"
+                     @published-toggle="(i) => {item.publishDate = i.publishDate; item.published = i.published;}"
                      @deleted-vacancy="() => items = items.filter(i => i.id !== item.id)" />
       </div>
       <PaginationGroup v-if="pagination.max > 1" @page="updateList" :current-page="pagination.current"
@@ -23,6 +23,7 @@
 import VacancyItem from "@/components/content/VacancyItem.vue";
 import PaginationGroup from "@/components/content/PaginationGroup.vue";
 import { listAllVacancies } from "@/services/vacancies";
+import { useUserStore } from "@/stores/user";
 
 export default {
   name: "DashboardVacanciesList",
@@ -37,6 +38,11 @@ export default {
         max: 1
       }
     };
+  },
+  computed: {
+    isAdmin() {
+      return useUserStore().info.role === 'ADMIN';
+    }
   },
   methods: {
     updateList(value) {
