@@ -16,7 +16,8 @@
         <section class="col-md-8 col-lg-9 ms-auto" v-else>
           <div class="list-group gap-3">
             <EventItem v-for="item in items" v-bind:key="item.id" :id="item.id" :title="item.title" :city="item.city"
-                       :start-date="item.startDate" :company="item.company.title" :summary="item.summary" />
+                       :start-date="item.startDate" :company="item.company.title" :summary="item.summary"
+                       :published="item.published" />
           </div>
           <PaginationGroup v-if="pagination.max > 1" @page="updateList" :current-page="pagination.current"
                            :total-pages="pagination.max" />
