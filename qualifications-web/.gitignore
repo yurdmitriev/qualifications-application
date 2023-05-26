@@ -35,3 +35,5 @@ playwright-report/
 .env.production
 .firebase
 .firebaserc
+
+dev-dist
