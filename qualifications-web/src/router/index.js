@@ -15,6 +15,7 @@ import ContentListView from "@/views/dashboard/ContentListView.vue";
 import DefaultView from "@/views/dashboard/DefaultView.vue";
 import NewContentView from "@/views/dashboard/NewContentView.vue";
 import EditProfileView from "@/views/EditProfileView.vue";
+import messagging from "@/plugins/firebase";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -95,7 +96,7 @@ const router = createRouter({
             parent: "dashboard_content",
             title: "Нова пропозиція",
             roles: ["ADMIN", "COMPANY"]
-          },
+          }
         },
         {
           path: "colleges",
@@ -105,7 +106,7 @@ const router = createRouter({
             parent: "dashboard",
             title: "Колеги"
           }
-        },
+        }
       ]
     },
     {
@@ -154,7 +155,7 @@ const router = createRouter({
       path: "/denied",
       name: "access_denied",
       props: route => ({
-       query: route.query.to
+        query: route.query.to
       }),
       component: AccessDeniedView
     },
@@ -169,6 +170,9 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   const userStore = useUserStore();
 
+  messagging.getToken().then(token => {
+    console.log(token);
+  }).catch(err => console.error(err));
   retrieveUser();
 
   if (to.meta.roles && !to.meta.roles.includes(userStore.info.role)) {

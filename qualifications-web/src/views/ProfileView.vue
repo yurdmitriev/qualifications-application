@@ -25,8 +25,26 @@
             <h5 class="list-group-item mt-4">
               <b>Email:</b> {{ user.email }}
             </h5>
-            <div class="mt-5">
+            <div class="mt-3">
               <RouterLink class="btn btn-primary" to="/profile/edit">Редагувати інформацію</RouterLink>
+            </div>
+            <div class="mt-5">
+              <h2>Налаштування</h2>
+              <div class="mt-3">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" :class="{'is-invalid': settings.notifications.denied}" type="checkbox"
+                         role="switch" id="notifications-switch" :disabled="!settings.notifications.supported"
+                         @click="askNotificationPermission" v-model="settings.notifications.accepted">
+                  <label class="form-check-label" for="notifications-switch">Отримувати PUSH сповіщення</label>
+                  <div class="invalid-feedback">
+                    Отримання сповіщень заблоковано у налаштуваннях браузера
+                  </div>
+                </div>
+                <button class="btn btn-primary mt-3" @click="testNotification"
+                        :disabled="settings.notifications.denied && !settings.notifications.accepted && !settings.notifications.supported">
+                  Тестувати сповіщення
+                </button>
+              </div>
             </div>
           </section>
           <section class="col-md-4" v-if="user.role === 'STUDENT' || user.role === 'LECTURER'">
@@ -63,10 +81,51 @@ export default {
         qualification: "",
         department: ""
       },
+      settings: {
+        notifications: {
+          supported: false,
+          denied: false,
+          accepted: false
+        }
+      },
       loading: true
     };
   },
+  methods: {
+    askNotificationPermission(event) {
+      if (Notification.permission === "granted") {
+        event.preventDefault();
+      } else {
+        this.settings.notifications.denied = true;
+        this.settings.notifications.accepted = false;
+
+        Notification.requestPermission().then((permission) => {
+          // If the user accepts, let's create a notification
+          if (permission === "granted") {
+            this.settings.notifications.denied = false;
+            this.settings.notifications.accepted = true;
+            new Notification("Тепер ви зможете отримувати сповіщення прямо в браузері!");
+          } else {
+            this.settings.notifications.denied = true;
+            this.settings.notifications.accepted = false;
+          }
+        });
+      }
+    },
+    testNotification() {
+      new Notification("Тест сповіщення!");
+    }
+  },
   beforeMount() {
+    if ("Notification" in window) {
+      this.settings.notifications.supported = true;
+
+      if (Notification.permission === "granted") {
+        this.settings.notifications.denied = false;
+        this.settings.notifications.accepted = true;
+      }
+    }
+
     this.loading = true;
 
     getCurrentUser()
