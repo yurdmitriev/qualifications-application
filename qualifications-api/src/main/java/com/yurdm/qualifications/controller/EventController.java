@@ -3,12 +3,18 @@ package com.yurdm.qualifications.controller;
 import com.yurdm.qualifications.model.content.Event;
 import com.yurdm.qualifications.model.content.Vacancy;
 import com.yurdm.qualifications.model.content.dto.ContentPublisherDTO;
+import com.yurdm.qualifications.model.content.dto.EventCreateDTO;
+import com.yurdm.qualifications.model.content.dto.VacancyCreateDTO;
+import com.yurdm.qualifications.model.users.Employee;
+import com.yurdm.qualifications.security.SecurityRole;
+import com.yurdm.qualifications.security.UserDetails;
 import com.yurdm.qualifications.service.EventService;
 import com.yurdm.qualifications.util.PagedResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
@@ -59,5 +65,17 @@ public class EventController {
     @DeleteMapping("{id}")
     public void deleteEvent(@PathVariable long id) {
         service.deleteById(id);
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'COMPANY')")
+    @PostMapping
+    public ResponseEntity<Event> createEvent(@RequestBody EventCreateDTO dto) {
+        var user = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        if (user.getRole().equals(SecurityRole.COMPANY.name()) &&
+                dto.getCompany() != ((Employee) user).getCompany().getId()) {
+            return ResponseEntity.status(403).build();
+        }
+        var event = service.createEvent(dto);
+        return ResponseEntity.ok(event);
     }
 }

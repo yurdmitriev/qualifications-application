@@ -6,7 +6,7 @@ import com.yurdm.qualifications.model.knowledge.Competency;
 import java.util.HashSet;
 import java.util.List;
 
-abstract public class MicroCredentialsEntity {
+abstract public class ContentEntity {
     protected abstract List<Competency> getCompetencies();
     @JsonProperty("micro_credentials")
     public List<Competency> getMicroCredentials() {
@@ -36,5 +36,15 @@ abstract public class MicroCredentialsEntity {
         }
 
         return result;
+    }
+
+    protected ContentType getType() throws ClassNotFoundException {
+        if (this instanceof Event) {
+            return ContentType.EVENT;
+        } else if (this instanceof Vacancy) {
+            return ContentType.VACANCY;
+        } else {
+            throw new ClassNotFoundException();
+        }
     }
 }

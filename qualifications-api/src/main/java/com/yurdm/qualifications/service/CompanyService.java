@@ -19,4 +19,8 @@ public class CompanyService {
     public Company createCompany(Company company) {
         return repository.save(company);
     }
+
+    public Company findById(long id) {
+        return repository.findById(id).orElseThrow();
+    }
 }

@@ -17,7 +17,7 @@ import java.util.List;
 @Entity
 @Table(name = "events")
 @Data
-public class Event extends MicroCredentialsEntity {
+public class Event extends ContentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

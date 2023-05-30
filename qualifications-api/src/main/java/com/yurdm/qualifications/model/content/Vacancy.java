@@ -17,7 +17,7 @@ import java.util.*;
 @Entity
 @Table(name = "vacancies")
 @Data
-public class Vacancy extends MicroCredentialsEntity {
+public class Vacancy extends ContentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

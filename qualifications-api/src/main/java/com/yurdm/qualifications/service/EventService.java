@@ -1,19 +1,28 @@
 package com.yurdm.qualifications.service;
 
 import com.yurdm.qualifications.model.content.Event;
+import com.yurdm.qualifications.model.content.dto.EventCreateDTO;
+import com.yurdm.qualifications.model.knowledge.Competency;
+import com.yurdm.qualifications.model.users.Company;
 import com.yurdm.qualifications.repository.EventsRepository;
 import com.yurdm.qualifications.util.PagedResponse;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class EventService {
     private final EventsRepository repository;
+    private final CompetencyService competencyService;
+    private final CompanyService companyService;
 
-    public EventService(EventsRepository repository) {
+    public EventService(EventsRepository repository, CompetencyService competencyService, CompanyService companyService) {
         this.repository = repository;
+        this.competencyService = competencyService;
+        this.companyService = companyService;
     }
 
     public PagedResponse<Event> listPublished(PageRequest pageRequest) {
@@ -50,5 +59,32 @@ public class EventService {
 
     public void deleteById(long id) {
         repository.deleteById(id);
+    }
+
+
+    public Event createEvent(EventCreateDTO dto) {
+        return repository.save(convertCreateDTO(dto));
+    }
+
+    public Event convertCreateDTO(EventCreateDTO dto) {
+        var event = new Event();
+        event.setTitle(dto.getTitle());
+        event.setDescription(dto.getDescription());
+        event.setSummary(dto.getSummary());
+        event.setUrl(dto.getUrl());
+        event.setCity(dto.getCity());
+        event.setPublished(dto.isPublished());
+
+
+        List<Competency> competencies = competencyService.getCompetenciesByIds(dto.getCompetencies());
+        Company company = companyService.findById(dto.getCompany());
+        event.setCompetencies(competencies);
+        event.setCompany(company);
+
+        if (dto.getId() != 0) {
+            event.setId(dto.getId());
+        }
+
+        return event;
     }
 }
