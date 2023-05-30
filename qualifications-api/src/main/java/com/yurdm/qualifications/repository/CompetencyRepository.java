@@ -8,4 +8,7 @@ import java.util.List;
 
 public interface CompetencyRepository extends JpaRepository<Competency, Long> {
     List<Competency> findCompetenciesByIdIn(Collection<Long> ids);
+    List<Competency> findCompetenciesByTitleContainingIgnoreCaseAndParentCompetencyIsNotNull(String title);
+    List<Competency> findCompetenciesByTitleContainingIgnoreCaseAndParentCompetencyIsNull(String title);
+    List<Competency> findAllByParentCompetencyIsNotNull();
 }

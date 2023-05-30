@@ -22,4 +22,16 @@ public class CompetencyService {
     public List<Competency> getCompetenciesByIds(Collection<Long> ids) {
         return repository.findCompetenciesByIdIn(ids);
     }
+
+    public List<Competency> findByTitle(String title) {
+        return repository.findCompetenciesByTitleContainingIgnoreCaseAndParentCompetencyIsNotNull(title);
+    }
+
+    public List<Competency> findByParentTitle(String title) {
+        return repository.findCompetenciesByTitleContainingIgnoreCaseAndParentCompetencyIsNull(title);
+    }
+
+    public List<Competency> getAll() {
+        return repository.findAllByParentCompetencyIsNotNull();
+    }
 }
