@@ -77,10 +77,5 @@ public class VacancyController {
         }
         var vacancy = service.createVacancy(dto);
         return ResponseEntity.ok(vacancy);
-
-//        try {
-//        } catch (Exception e) {
-//            return ResponseEntity.badRequest().build();
-//        }
     }
 }

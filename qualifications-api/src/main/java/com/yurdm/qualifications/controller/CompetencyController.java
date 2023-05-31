@@ -1,6 +1,7 @@
 package com.yurdm.qualifications.controller;
 
 import com.yurdm.qualifications.model.knowledge.Competency;
+import com.yurdm.qualifications.model.knowledge.CompetencyViewDTO;
 import com.yurdm.qualifications.service.CompetencyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,7 @@ public class CompetencyController {
     }
 
     @GetMapping
-    public ResponseEntity<Collection<Competency>> searchCompetency(@RequestParam("q") String query) {
+    public ResponseEntity<Collection<CompetencyViewDTO>> searchCompetency(@RequestParam("q") String query) {
         if (query != null && !query.isBlank()) {
             Set<Competency> parents = new HashSet<>();
 
@@ -32,9 +33,12 @@ public class CompetencyController {
 
             return ResponseEntity.ok(Stream.concat(parents.stream(), service.findByTitle(query).stream())
                     .sorted(Comparator.comparingLong(Competency::getId))
+                    .map(CompetencyService::toViewDTO)
                     .collect(Collectors.toCollection(LinkedHashSet::new)));
         } else {
-            return ResponseEntity.ok(service.getAll());
+            return ResponseEntity.ok(service.getAll().stream()
+                    .map(CompetencyService::toViewDTO)
+                    .collect(Collectors.toCollection(LinkedHashSet::new)));
         }
     }
 }
