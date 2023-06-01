@@ -2,7 +2,7 @@
   <section>
     <BreadcrumbsComponent />
     <h1 class="mb-4">Нова пропозиція</h1>
-    <form class="row mx-0 gx-md-3 mt-3" action="#">
+    <form class="row mx-0 gx-md-3 mt-3" action="#" @submit.prevent="submitForm">
       <fieldset class="p-0 col-md-6">
         <div class="mb-3 col-md">
           <label for="content_title" class="form-label">Заголовок:</label>
@@ -11,6 +11,10 @@
         <div class="mb-3 col-md">
           <label class="form-label">Опис:</label>
           <RichTextEditor v-model="description" />
+        </div>
+        <div class="mb-3 col-md">
+          <label class="form-label">Короткий опис:</label>
+          <textarea class="form-control" v-model="summary" />
         </div>
         <div class="mb-3 col-md" v-if="type === 'vacancy'">
           <label class="form-label">Обов'язки на посаді:</label>
@@ -53,7 +57,7 @@
         </div>
       </fieldset>
       <fieldset class="p-0 col-md-4 ms-auto">
-        <MicroCredentialsComponent :mock="true" :editable="true" />
+        <MicroCredentialsComponent :editable="true" v-model="competencies"/>
       </fieldset>
       <fieldset class="col-12 d-flex align-items-center gap-4">
         <button class="btn btn-primary">Зберегти</button>
@@ -80,9 +84,11 @@ export default {
       type: "",
       title: "",
       description: "",
+      summary: "",
       city: "",
       url: "",
       published: false,
+      competencies: {},
       vacancy: {
         responsibilities: "",
         salary: ""
@@ -91,6 +97,15 @@ export default {
         startDate: ""
       }
     };
+  },
+  methods: {
+    submitForm() {
+      if (this.type === 'event') {
+        // create event
+      } else {
+        // create vacancy
+      }
+    }
   }
 };
 </script>

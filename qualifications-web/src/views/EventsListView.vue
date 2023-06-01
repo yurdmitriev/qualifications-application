@@ -5,7 +5,7 @@
       <div class="row gx-md-5 gy-3 align-items-start mt-2 mx-0">
         <section class="card col-md-4 col-lg-3 p-0 filters">
           <div class="card-body p-4 list-group-flush">
-            <MicroCredentialsComponent :mock="true" :editable="true" />
+            <MicroCredentialsComponent :editable="true" v-model="filterCompetencies" />
           </div>
         </section>
         <div class="text-center col-md-8 col-lg-9 my-auto mt-5 mt-md-0" v-if="loading">
@@ -40,6 +40,7 @@ export default {
   data() {
     return {
       items: [],
+      filterCompetencies: {},
       loading: false,
       defaultSize: 6,
       pagination: {
