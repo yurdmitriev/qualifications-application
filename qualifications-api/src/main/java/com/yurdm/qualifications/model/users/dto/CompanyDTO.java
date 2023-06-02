@@ -9,6 +9,9 @@ import lombok.Getter;
 @Builder
 @Data
 public class CompanyDTO {
+    @JsonProperty("id")
+    private long id;
+
     @JsonProperty(value = "title", required = true)
     private String title;
 
@@ -24,6 +27,7 @@ public class CompanyDTO {
     public Company convert() {
         Company company = new Company();
 
+        company.setId(getId());
         company.setTitle(getTitle());
         company.setDescription(getDescription());
 //        company.setLogo(getLogo());
