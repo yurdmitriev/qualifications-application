@@ -13,7 +13,7 @@
         <h6 class="mb-1 text-secondary"><i>{{ publishedDate }}</i></h6>
         <p class="mt-1 text-secondary d-flex align-items-center">
           <GeoFilledIcon class="me-1" />
-          <b><i>{{ city ?? "Віддалено" }}</i></b>
+          <b><i>{{ city ? city : "Віддалено" }}</i></b>
         </p>
         <div class="row mx-0 gx-md-3 mt-3">
           <section class="p-0 col-md-8">
@@ -27,7 +27,7 @@
             </section>
           </section>
           <section class="p-0 col-md-3 ms-auto">
-            <MicroCredentialsComponent :editable="false" :competencies="competencies"/>
+            <MicroCredentialsComponent :editable="false" v-model="competencies" />
           </section>
           <section class="mt-3">
             <a target="_blank" class="btn btn-primary fw-semibold" :href="url" v-if="url">
@@ -65,7 +65,7 @@
             </section>
           </section>
           <section class="p-0 col-md-3 ms-auto" v-if="competencies">
-            <MicroCredentialsComponent :editable="false" :competencies="competencies"/>
+            <MicroCredentialsComponent :editable="false" v-model="competencies" />
           </section>
         </div>
         <section class="mt-3" v-if="url">

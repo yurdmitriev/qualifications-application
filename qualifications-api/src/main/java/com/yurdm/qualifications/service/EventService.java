@@ -74,7 +74,7 @@ public class EventService {
         event.setUrl(dto.getUrl());
         event.setCity(dto.getCity());
         event.setPublished(dto.isPublished());
-
+        event.setStartDate(dto.getStartDate());
 
         List<Competency> competencies = competencyService.getCompetenciesByIds(dto.getCompetencies());
         Company company = companyService.findById(dto.getCompany());

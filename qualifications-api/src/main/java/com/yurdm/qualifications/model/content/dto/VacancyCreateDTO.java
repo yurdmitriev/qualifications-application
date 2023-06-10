@@ -19,4 +19,5 @@ public class VacancyCreateDTO {
     private String url;
     private String city;
     private boolean published;
+    private int salary;
 }

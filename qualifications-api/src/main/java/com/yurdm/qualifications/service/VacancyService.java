@@ -87,6 +87,7 @@ public class VacancyService {
         Company company = companyService.findById(dto.getCompany());
         vacancy.setCompetencies(competencies);
         vacancy.setCompany(company);
+        vacancy.setSalary(dto.getSalary());
 
         if (dto.getId() != 0) {
             vacancy.setId(dto.getId());

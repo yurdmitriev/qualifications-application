@@ -23,3 +23,7 @@ export const setPublishedState = async (id, state) => {
     published: state ?? false
   });
 }
+
+export const createEvent = async (data) => {
+  return await http(token).post('/api/events', data);
+}

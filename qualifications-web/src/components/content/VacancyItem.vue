@@ -32,7 +32,7 @@
       </span>
     </h5>
     <p class="mb-1"><i v-if="publishedAt"><span v-if="dashboard">Опубліковано </span>{{ publishedDate }}</i> <i
-      class="text-secondary">{{ city ?? "Віддалено" }}</i>
+      class="text-secondary">{{ city ? city : "Віддалено" }}</i>
       <span v-if="dashboard"><i class="ms-3" v-if="salary"><b>₴{{ salary }}</b></i></span>
     </p>
     <p v-if="!dashboard">{{ summary }}</p>

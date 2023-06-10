@@ -3,6 +3,7 @@ package com.yurdm.qualifications.model.content.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -18,4 +19,5 @@ public class EventCreateDTO {
     private String url;
     private String city;
     private boolean published;
+    private Date startDate;
 }

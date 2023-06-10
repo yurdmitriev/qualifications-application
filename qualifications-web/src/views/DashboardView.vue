@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid flex-grow-1 d-flex flex-column ">
-    <div class="row d-flex flex-column flex-grow-1">
-      <nav id="topMenu" class="col-md-3 col-lg-2 d-md-block bg-body-tertiary sidebar collapse border-end">
+    <div class="row d-flex flex-column flex-grow-1 mx-0 my-2">
+      <nav id="topMenu" class="col-md-3 col-lg-2 d-md-block bg-body-tertiary bg-light sidebar collapse border-end">
         <div class="position-sticky pt-3 sidebar-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
